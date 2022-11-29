@@ -1,0 +1,71 @@
+GET http://localhost:3000/users
+Accept: application/json
+
+###
+
+POST http://localhost:3000/users
+Accept: application/json
+Content-Type: application/json
+
+{
+"name": "Анна С.",
+"about": "Врач",
+"avatar": "https://i.pinimg.com/originals/73/0c/e2/730ce22f0ba673bafc285998337a60c8.jpg"
+}
+###
+
+GET http://localhost:3000/users/6385a58bbeb7d0abaab80f08
+Accept: application/json
+
+###
+
+PATCH http://localhost:3000/users/me
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Aleksandr",
+  "about": "Software Engineer"
+}
+
+###
+
+PATCH http://localhost:3000/users/me/avatar
+Accept: application/json
+Content-Type: application/json
+
+{
+  "avatar": ""
+}
+
+###
+
+GET http://localhost:3000/cards
+Accept: application/json
+
+###
+
+POST http://localhost:3000/cards
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Дом",
+  "link": "https://damion.club/uploads/posts/2022-03/1647021971_1-damion-club-p-retrofuturizm-krasivie-foto-1.jpg"
+}
+###
+
+DELETE http://localhost:3000/cards/6485b434603cdfc4632e9022
+Accept: application/json
+
+###
+
+PUT http://localhost:3000/cards/6385b434603cdfc4632e9022/likes
+Accept: application/json
+
+###
+
+DELETE http://localhost:3000/cards/6375b434603cdfc4632e9022/likes
+Accept: application/json
+
+###
