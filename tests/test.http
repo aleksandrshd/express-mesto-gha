@@ -69,3 +69,8 @@ DELETE http://localhost:3000/cards/6375b434603cdfc4632e9022/likes
 Accept: application/json
 
 ###
+
+PATCH http://localhost:3000/404
+Accept: application/json
+
+###

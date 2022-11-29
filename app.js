@@ -24,6 +24,10 @@ app.use('/users', usersRouter);
 
 app.use('/cards', cardsRouter);
 
+app.use('*', (req, res) => {
+  return res.status(404).json({ message: 'Ошибка: запрашиваемый роут не существует' });
+});
+
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 }, () => {
