@@ -24,7 +24,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Aleksandr",
+  "name": "Aleksandr S.",
   "about": "Software Engineer"
 }
 
