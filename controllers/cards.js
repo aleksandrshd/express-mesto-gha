@@ -38,7 +38,11 @@ const deleteCard = async (req, res) => {
     return res.status(200).json({ message: 'Карточка удалена' });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    if (err.name === 'CastError') {
+      return res.status(400).json({ message: 'Передан некорректный id карточки.' });
+    } else {
+      return res.status(500).json({ message: 'Произошла ошибка' });
+    }
   }
 };
 

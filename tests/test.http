@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/users/6385a58bbeb7d0abaab80f08
+GET http://localhost:3000/users/12345
 Accept: application/json
 
 ###
@@ -55,7 +55,7 @@ Content-Type: application/json
 }
 ###
 
-DELETE http://localhost:3000/cards/6485b434603cdfc4632e9022
+DELETE http://localhost:3000/cards/12345
 Accept: application/json
 
 ###
