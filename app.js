@@ -5,7 +5,7 @@ const helmet = require('helmet');
 
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
-const {apiLimiter} = require('./utils/apiLimiter');
+const { apiLimiter } = require('./utils/apiLimiter');
 
 const PORT = 3000;
 

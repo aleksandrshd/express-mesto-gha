@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const {httpStatusCodes} = require('../utils/constants');
+const { httpStatusCodes } = require('../utils/constants');
 
 const getUsers = async (req, res) => {
   try {
@@ -13,7 +13,11 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const user = await User.create({name: req.body.name, about: req.body.about, avatar: req.body.avatar});
+    const user = await User.create({
+      name: req.body.name,
+      about: req.body.about,
+      avatar: req.body.avatar,
+    });
     return res.status(httpStatusCodes.created).json(user);
   } catch (err) {
     console.error(err);
@@ -72,7 +76,8 @@ const updateUserAvatar = async (req, res) => {
     const id = req.user._id;
     const user = await User.findByIdAndUpdate(id, { avatar: req.body.avatar }, {
       new: true,
-      runValidators: true});
+      runValidators: true,
+    });
 
     if (!user) {
       return res.status(httpStatusCodes.notFound).json({ message: 'Пользователь не найден' });

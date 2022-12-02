@@ -2,7 +2,7 @@ const httpStatusCodes = {
   created: '201',
   badRequest: '400',
   notFound: '404',
-  internalServerError: '500'
+  internalServerError: '500',
 };
 
-module.exports = {httpStatusCodes};
+module.exports = { httpStatusCodes };
