@@ -8,8 +8,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-"name": "Анна С.",
-"about": "Врач",
+"name": "Алёна",
+"about": "Воспитатель",
 "avatar": "https://i.pinimg.com/originals/73/0c/e2/730ce22f0ba673bafc285998337a60c8.jpg"
 }
 ###

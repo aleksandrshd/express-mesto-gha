@@ -1,15 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const {apiLimiter} = require('./utils/apiLimiter');
 
 const PORT = 3000;
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
+
+app.use(apiLimiter);
 
 app.use(bodyParser.json());
 
@@ -30,8 +34,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 }, () => {
   console.log('Connected to MongoDB');
-});
-
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+  });
 });

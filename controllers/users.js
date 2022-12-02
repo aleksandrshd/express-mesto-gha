@@ -1,26 +1,27 @@
 const User = require('../models/user');
+const {httpStatusCodes} = require('../utils/constants');
 
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    return res.status(200).json(users);
+    return res.json(users);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
 };
 
 const createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    return res.status(201).json(user);
+    const user = await User.create({name: req.body.name, about: req.body.about, avatar: req.body.avatar});
+    return res.status(httpStatusCodes.created).json(user);
   } catch (err) {
     console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      return res.status(400).json({ message: `Переданы некорректные данные при создании пользователя. ${errors.join(', ')}` });
+      return res.status(httpStatusCodes.badRequest).json({ message: `Переданы некорректные данные при создании пользователя. ${errors.join(', ')}` });
     }
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
 };
 
@@ -30,16 +31,16 @@ const getUser = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ message: 'Пользователь не найден' });
+      return res.status(httpStatusCodes.notFound).json({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).json(user);
+    return res.json(user);
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {
-      return res.status(400).json({ message: 'Передан некорректный id пользователя.' });
+      return res.status(httpStatusCodes.badRequest).json({ message: 'Передан некорректный id пользователя.' });
     }
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
 };
 
@@ -52,37 +53,39 @@ const updateUserProfile = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'Пользователь не найден' });
+      return res.status(httpStatusCodes.notFound).json({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).json(user);
+    return res.json(user);
   } catch (err) {
     console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      return res.status(400).json({ message: `Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}` });
+      return res.status(httpStatusCodes.badRequest).json({ message: `Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}` });
     }
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
 };
 
 const updateUserAvatar = async (req, res) => {
   try {
     const id = req.user._id;
-    const user = await User.findByIdAndUpdate(id, { avatar: req.body.avatar }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { avatar: req.body.avatar }, {
+      new: true,
+      runValidators: true});
 
     if (!user) {
-      return res.status(404).json({ message: 'Пользователь не найден' });
+      return res.status(httpStatusCodes.notFound).json({ message: 'Пользователь не найден' });
     }
 
-    return res.status(200).json(user);
+    return res.json(user);
   } catch (err) {
     console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      return res.status(400).json({ message: `Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}` });
+      return res.status(httpStatusCodes.badRequest).json({ message: `Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}` });
     }
-    return res.status(500).json({ message: 'Произошла ошибка' });
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
 };
 
