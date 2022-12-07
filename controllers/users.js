@@ -1,3 +1,6 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
 const { httpStatusCodes } = require('../utils/constants');
 
@@ -13,10 +16,13 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
+    const hash = await bcrypt.hash(req.body.password, 10);
     const user = await User.create({
       name: req.body.name,
       about: req.body.about,
       avatar: req.body.avatar,
+      email: req.body.email,
+      password: hash,
     });
     return res.status(httpStatusCodes.created).json(user);
   } catch (err) {
@@ -94,6 +100,41 @@ const updateUserAvatar = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(httpStatusCodes.badRequest).json({ message: 'Введены некорректные почта или пароль' });
+    }
+
+    const matched = await bcrypt.compare(password, user.password);
+
+    if (!matched) {
+      return res.status(httpStatusCodes.badRequest).json({ message: 'Введены некорректные почта или пароль' });
+    }
+
+    const token = jwt.sign({_id: user._id}, 'some-secret-key', {expiresIn: '7d'});
+
+    return res.json({ token });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+  }
+}
+
+const getCurrentUserInfo = (req, res) => {
+  return res.json(req.user);
+}
+
 module.exports = {
-  getUsers, createUser, getUser, updateUserProfile, updateUserAvatar,
+  getUsers,
+  createUser,
+  getUser,
+  updateUserProfile,
+  updateUserAvatar,
+  login,
+  getCurrentUserInfo,
 };

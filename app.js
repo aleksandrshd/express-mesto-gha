@@ -2,10 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { apiLimiter } = require('./utils/apiLimiter');
 
+const { createUser, login, } = require('./controllers/users');
+const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
-const { apiLimiter } = require('./utils/apiLimiter');
 
 const PORT = 3000;
 
@@ -17,12 +19,18 @@ app.use(apiLimiter);
 
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
+app.post('/signin', login);
+
+app.post('/signup', createUser);
+
+app.use(auth);
+
+/*app.use((req, res, next) => {
   req.user = {
     _id: '6384601d3321b92c4ebc820e',
   };
   next();
-});
+});*/
 
 app.use('/users', usersRouter);
 
