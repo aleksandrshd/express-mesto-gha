@@ -30,13 +30,21 @@ const createCard = async (req, res) => {
 const deleteCard = async (req, res) => {
   try {
     const { id } = req.params;
-    const query = await Card.findByIdAndRemove(id);
+    /*const query = await Card.findByIdAndRemove(id);*/
+    const card = await Card.findById(id);
 
-    if (!query) {
+    if (!card) {
       return res.status(httpStatusCodes.notFound).json({ message: 'Карточка c указанным id не найдена' });
     }
 
-    return res.json({ message: 'Карточка удалена' });
+    if (card.owner.toHexString() === req.user._id) {
+      await Card.findByIdAndRemove(id);
+      return res.json({ message: 'Карточка удалена' });
+    } else {
+      return res.status(httpStatusCodes.badRequest).json({ message: 'Удаление карточек, добавленных другими пользователями запрещено' });
+    }
+
+
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {

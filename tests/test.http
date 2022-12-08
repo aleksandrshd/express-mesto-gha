@@ -8,11 +8,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-"name": "Юрий",
-"about": "Технический писатель",
-"avatar": "https://i.pinimg.com/originals/19/ba/bc/19babcafb7322c118d87f982e37ebbff.jpg",
-"email": "gaua@gmail.com",
-"password": "gauagaua"
+"name": "Иван",
+"about": "Мастер",
+"avatar": "https://img2.joyreactor.cc/pics/post/full/%D1%80%D0%B5%D1%82%D1%80%D0%BE%D1%84%D1%83%D1%82%D1%83%D1%80%D0%B8%D0%B7%D0%BC-art-%D0%BA%D1%80%D0%B0%D1%81%D0%B8%D0%B2%D1%8B%D0%B5-%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8-Robert-McCall-1406513.jpeg",
+"email": "ivan@ya.ru",
+"password": "ivan"
 }
 ###
 
@@ -21,8 +21,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "gaua@gmail.com",
-  "password": "gauagaua"
+  "email": "ivan@ya.ru",
+  "password": "An22GsdQ"
 }
 ###
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 
 GET http://localhost:3000/users/me
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNzZkMWZlMGM0YjM1N2Q2ZWViMjciLCJpYXQiOjE2NzA0MTc4OTMsImV4cCI6MTY3MTAyMjY5M30.kbPcIqTuvQqZYAy3cg0Y53TG-HparNTozOTwEkKv1o8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
 
 ###
 
@@ -65,16 +65,18 @@ Accept: application/json
 
 POST http://localhost:3000/cards
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
 Content-Type: application/json
 
 {
-  "name": "Дом",
-  "link": "https://damion.club/uploads/posts/2022-03/1647021971_1-damion-club-p-retrofuturizm-krasivie-foto-1.jpg"
+  "name": "Лыжи",
+  "link": "https://avatars.mds.yandex.net/get-marketcms/1668019/img-ae4ab14f-84bd-4866-99bf-c7188723e875.jpeg/optimize"
 }
 ###
 
-DELETE http://localhost:3000/cards/12345
+DELETE http://localhost:3000/cards/6391b92deb0dbe4d363a5fef
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNzZkMWZlMGM0YjM1N2Q2ZWViMjciLCJpYXQiOjE2NzA0OTA1ODcsImV4cCI6MTY3MTA5NTM4N30.Zcc3pp0L4jvJ8IAYpymajUMX-7l3DjNIoI-VWNlml8Q
 
 ###
 
