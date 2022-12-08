@@ -44,7 +44,7 @@ Content-Type: application/json
 
 GET http://localhost:3000/users/me
 Accept: application/json
-Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNzZkMWZlMGM0YjM1N2Q2ZWViMjciLCJpYXQiOjE2NzA0MTc4OTMsImV4cCI6MTY3MTAyMjY5M30.kbPcIqTuvQqZYAy3cg0Y53TG-HparNTozOTwEkKv1o8"
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNzZkMWZlMGM0YjM1N2Q2ZWViMjciLCJpYXQiOjE2NzA0MTc4OTMsImV4cCI6MTY3MTAyMjY5M30.kbPcIqTuvQqZYAy3cg0Y53TG-HparNTozOTwEkKv1o8
 
 ###
 

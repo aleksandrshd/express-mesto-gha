@@ -6,11 +6,11 @@ const {
 
 router.get('/', getUsers);
 
+router.get('/me', getCurrentUserInfo);
+
 router.get('/:id', getUser);
 
 router.patch('/me', updateUserProfile);
-
-router.get('/me', getCurrentUserInfo);
 
 router.patch('/me/avatar', updateUserAvatar);
 

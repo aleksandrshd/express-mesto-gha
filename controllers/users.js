@@ -125,8 +125,23 @@ const login = async (req, res) => {
   }
 }
 
-const getCurrentUserInfo = (req, res) => {
-  return res.json(req.user);
+const getCurrentUserInfo = async (req, res) => {
+  try {
+    const id = req.user._id;
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(httpStatusCodes.notFound).json({ message: 'Пользователь не найден' });
+    }
+
+    return res.json(user);
+  } catch (err) {
+    console.error(err);
+    if (err.name === 'CastError') {
+      return res.status(httpStatusCodes.badRequest).json({ message: 'Передан некорректный id пользователя.' });
+    }
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+  }
 }
 
 module.exports = {
