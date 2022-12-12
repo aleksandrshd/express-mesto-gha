@@ -9,9 +9,13 @@ const getUsers = async (req, res) => {
     const users = await User.find({});
     return res.json(users);
   } catch (err) {
+    next(err);
+  }
+
+  /*catch (err) {
     console.error(err);
     return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
-  }
+  }*/
 };
 
 const createUser = async (req, res) => {
@@ -33,6 +37,15 @@ const createUser = async (req, res) => {
     }
     return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
   }
+
+  /*catch (err) {
+    console.error(err);
+    if (err.name === 'ValidationError') {
+      const errors = Object.values(err.errors).map((error) => error.message);
+      return res.status(httpStatusCodes.badRequest).json({ message: `Переданы некорректные данные при создании пользователя. ${errors.join(', ')}` });
+    }
+    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+  }*/
 };
 
 const getUser = async (req, res) => {
