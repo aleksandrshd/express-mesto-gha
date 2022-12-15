@@ -2,13 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const { errors } = require('celebrate');
+const { errors, celebrate, Joi} = require('celebrate');
 const { apiLimiter } = require('./utils/apiLimiter');
 
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const {urlRegEx} = require("./utils/constants");
 
 const PORT = 3000;
 
@@ -20,9 +21,22 @@ app.use(apiLimiter);
 
 app.use(bodyParser.json());
 
-app.post('/signin', login);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(4),
+  }),
+}), login);
 
-app.post('/signup', createUser);
+app.post('/signup',celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
+    avatar: Joi.string().regex(urlRegEx).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(4),
+  }),
+}), createUser);
 
 app.use(auth);
 
