@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { urlRegEx } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -17,6 +18,12 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    validate: {
+      validator(v) {
+        return urlRegEx.test(v);
+      },
+      message: (props) => `${props.value} is not a valid url!`,
+    },
     required: true,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },

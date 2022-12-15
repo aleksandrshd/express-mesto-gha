@@ -1,17 +1,19 @@
 const Card = require('../models/card');
 const { httpStatusCodes } = require('../utils/constants');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
 
-const getCards = async (req, res) => {
+const getCards = async (req, res, next) => {
   try {
     const cards = await Card.find({});
     return res.json(cards);
   } catch (err) {
     console.error(err);
-    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
-const createCard = async (req, res) => {
+const createCard = async (req, res, next) => {
   try {
     const newCard = await Card.create(
       { name: req.body.name, link: req.body.link, owner: req.user },
@@ -21,40 +23,36 @@ const createCard = async (req, res) => {
     console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      return res.status(httpStatusCodes.badRequest).json({ message: `Переданы некорректные данные при создании карточки. ${errors.join(', ')}` });
+      next(new BadRequestError(`Переданы некорректные данные при создании карточки. ${errors.join(', ')}`));
     }
-    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
-const deleteCard = async (req, res) => {
+const deleteCard = async (req, res, next) => {
   try {
     const { id } = req.params;
-    /*const query = await Card.findByIdAndRemove(id);*/
     const card = await Card.findById(id);
 
     if (!card) {
-      return res.status(httpStatusCodes.notFound).json({ message: 'Карточка c указанным id не найдена' });
+      next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
     if (card.owner.toHexString() === req.user._id) {
       await Card.findByIdAndRemove(id);
       return res.json({ message: 'Карточка удалена' });
-    } else {
-      return res.status(httpStatusCodes.badRequest).json({ message: 'Удаление карточек, добавленных другими пользователями запрещено' });
     }
-
-
+    next(new BadRequestError('Удаление карточек, добавленных другими пользователями запрещено!'));
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {
-      return res.status(httpStatusCodes.badRequest).json({ message: 'Передан некорректный id карточки.' });
+      next(new BadRequestError('Передан некорректный id карточки!'));
     }
-    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
-const likeCard = async (req, res) => {
+const likeCard = async (req, res, next) => {
   try {
     const { id } = req.params;
     const query = await Card.findByIdAndUpdate(
@@ -64,20 +62,20 @@ const likeCard = async (req, res) => {
     );
 
     if (!query) {
-      return res.status(httpStatusCodes.notFound).json({ message: 'Карточка c указанным id не найдена' });
+      next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
-    return res.json({ message: 'Лайк добавлен' });
+    return res.json({ message: 'Лайк добавлен.' });
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {
-      return res.status(httpStatusCodes.badRequest).json({ message: 'Переданы некорректные данные для постановки лайка.' });
+      next(new BadRequestError('Переданы некорректные данные для постановки лайка!'));
     }
-    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 
-const dislikeCard = async (req, res) => {
+const dislikeCard = async (req, res, next) => {
   try {
     const { id } = req.params;
     const query = await Card.findByIdAndUpdate(
@@ -87,16 +85,16 @@ const dislikeCard = async (req, res) => {
     );
 
     if (!query) {
-      return res.status(httpStatusCodes.notFound).json({ message: 'Карточка c указанным id не найдена' });
+      next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
-    return res.json({ message: 'Лайк удален' });
+    return res.json({ message: 'Лайк удален.' });
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {
-      return res.status(httpStatusCodes.badRequest).json({ message: 'Переданы некорректные данные для снятия лайка.' });
+      next(new BadRequestError('Переданы некорректные данные для снятия лайка!'));
     }
-    return res.status(httpStatusCodes.internalServerError).json({ message: 'Произошла ошибка' });
+    next(err);
   }
 };
 

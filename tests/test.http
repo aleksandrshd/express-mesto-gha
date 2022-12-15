@@ -1,5 +1,6 @@
 GET http://localhost:3000/users
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
 
 ###
 
@@ -8,11 +9,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-"name": "Иван",
-"about": "Мастер",
-"avatar": "https://img2.joyreactor.cc/pics/post/full/%D1%80%D0%B5%D1%82%D1%80%D0%BE%D1%84%D1%83%D1%82%D1%83%D1%80%D0%B8%D0%B7%D0%BC-art-%D0%BA%D1%80%D0%B0%D1%81%D0%B8%D0%B2%D1%8B%D0%B5-%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8-Robert-McCall-1406513.jpeg",
-"email": "ivan@ya.ru",
-"password": "ivan"
+"name": "А",
+"about": "С",
+"avatar": "",
+"email": "artem1@ya.ru",
+"password": "artem1"
 }
 ###
 
@@ -21,39 +22,42 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "ivan@ya.ru",
+  "email": "sn22k@ya.ru",
   "password": "An22GsdQ"
 }
 ###
 
-GET http://localhost:3000/users/12345
+GET http://localhost:3000/users/123456789101112131415161
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzExMDIzMTMsImV4cCI6MTY3MTcwNzExM30.ATMifTn4PzhfLCrcT4yUWJXwWJCpJ_qPts7eyW8I77U
 
 ###
 
 PATCH http://localhost:3000/users/me
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
 
 {
-  "name": "Aleksandr S.",
-  "about": "Software Engineer"
+  "name": "Александр С.",
+  "about": "Инженер"
 }
 
 ###
 
 GET http://localhost:3000/users/me
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzExMDA1MjAsImV4cCI6MTY3MTcwNTMyMH0.iJTtiFHck8efOlkeIPXcAgs4GgDqo1R3fydoW76lEuU
 
 ###
 
 PATCH http://localhost:3000/users/me/avatar
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzExMDA1MjAsImV4cCI6MTY3MTcwNTMyMH0.iJTtiFHck8efOlkeIPXcAgs4GgDqo1R3fydoW76lEuU
 Content-Type: application/json
 
 {
-  "avatar": ""
+  "avatar": "https:/phonoteka.org/uploads/posts/2021-05/1622464154_11-phonoteka_org-p-kommunisticheskoe-budushchee-art-krasivo-13.jpg"
 }
 
 ###
@@ -65,7 +69,7 @@ Accept: application/json
 
 POST http://localhost:3000/cards
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzA0OTA3MTIsImV4cCI6MTY3MTA5NTUxMn0.eIohI93X705cEif36pr1eoyQYwVC1R-Rd7sDIWPYX-Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzkwNmY0ODBiNzdlOTUyMGIxODM1ZWEiLCJpYXQiOjE2NzExMDA1MjAsImV4cCI6MTY3MTcwNTMyMH0.iJTtiFHck8efOlkeIPXcAgs4GgDqo1R3fydoW76lEuU
 Content-Type: application/json
 
 {

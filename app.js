@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
 const { apiLimiter } = require('./utils/apiLimiter');
 
-const { createUser, login, } = require('./controllers/users');
+const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -31,14 +32,16 @@ app.use('/cards', cardsRouter);
 
 app.use('*', (req, res) => res.status(404).json({ message: 'Ошибка: запрашиваемый роут не существует' }));
 
-app.use((err, req, res, next) => {
+app.use(errors());
+
+app.use((err, req, res) => {
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)
     .send({
       message: statusCode === 500
         ? 'На сервере произошла ошибка'
-        : message
+        : message,
     });
 });
 
