@@ -62,7 +62,7 @@ const likeCard = async (req, res, next) => {
     );
 
     if (!query) {
-      next(new NotFoundError('Карточка c указанным id не найдена!'));
+      return next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
     return res.json({ message: 'Лайк добавлен.' });
@@ -85,7 +85,7 @@ const dislikeCard = async (req, res, next) => {
     );
 
     if (!query) {
-      next(new NotFoundError('Карточка c указанным id не найдена!'));
+      return next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
     return res.json({ message: 'Лайк удален.' });
