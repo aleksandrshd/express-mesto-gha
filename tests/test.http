@@ -22,8 +22,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "sn22k@ya.ru",
-  "password": "An22GsdQ"
+  "email": "test@ya.ru",
+  "password": "test"
 }
 ###
 

@@ -5,6 +5,8 @@ const User = require('../models/user');
 const { httpStatusCodes } = require('../utils/constants');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
+const ConflictError = require("../errors/ConflictError");
+const UnauthorizedError = require("../errors/UnauthorizedError");
 
 const getUsers = async (req, res, next) => {
   try {
@@ -31,6 +33,9 @@ const createUser = async (req, res, next) => {
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при создании пользователя. ${errors.join(', ')}`));
+    }
+    if (err.code === 11000) {
+      next(new ConflictError('Пользователь с указанным email уже зарегестрирован!'));
     }
     next(err);
   }
@@ -105,13 +110,13 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      next(new BadRequestError('Введены некорректные почта или пароль!'));
+      next(new UnauthorizedError('Введены некорректные почта или пароль!'));
     }
 
     const matched = await bcrypt.compare(password, user.password);
 
     if (!matched) {
-      next(new BadRequestError('Введены некорректные почта или пароль!'));
+      next(new UnauthorizedError('Введены некорректные почта или пароль!'));
     }
 
     const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
