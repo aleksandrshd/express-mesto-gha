@@ -5,8 +5,8 @@ const User = require('../models/user');
 const { httpStatusCodes } = require('../utils/constants');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
-const ConflictError = require("../errors/ConflictError");
-const UnauthorizedError = require("../errors/UnauthorizedError");
+const ConflictError = require('../errors/ConflictError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const getUsers = async (req, res, next) => {
   try {

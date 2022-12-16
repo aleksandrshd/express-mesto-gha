@@ -2,6 +2,7 @@ const Card = require('../models/card');
 const { httpStatusCodes } = require('../utils/constants');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require("../errors/ForbiddenError");
 
 const getCards = async (req, res, next) => {
   try {
@@ -42,7 +43,7 @@ const deleteCard = async (req, res, next) => {
       await Card.findByIdAndRemove(id);
       return res.json({ message: 'Карточка удалена' });
     }
-    next(new BadRequestError('Удаление карточек, добавленных другими пользователями запрещено!'));
+    next(new ForbiddenError('Удаление карточек, добавленных другими пользователями запрещено!'));
   } catch (err) {
     console.error(err);
     if (err.name === 'CastError') {
