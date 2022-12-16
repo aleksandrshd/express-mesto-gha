@@ -27,7 +27,13 @@ const createUser = async (req, res, next) => {
       email: req.body.email,
       password: hash,
     });
-    return res.status(httpStatusCodes.created).json(user);
+    return res.status(httpStatusCodes.created).json({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+      _id: user._id,
+    });
   } catch (err) {
     console.error(err);
     if (err.name === 'ValidationError') {
