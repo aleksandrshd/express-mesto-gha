@@ -9,11 +9,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-"name": "А",
-"about": "С",
-"avatar": "",
-"email": "artem1@ya.ru",
-"password": "artem1"
+"name": "Александр",
+"about": "Савичев",
+"avatar": "https://i.pinimg.com/originals/19/ba/bc/19babcafb7322c118d87f982e37ebbff.jpg",
+"email": "sn22k@ya.ru",
+"password": "sn22k"
 }
 ###
 

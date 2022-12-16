@@ -48,7 +48,7 @@ app.use('*', (req, res) => res.status(404).json({ message: 'Ошибка: зап
 
 app.use(errors());
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)
