@@ -13,7 +13,7 @@ const getUsers = async (req, res, next) => {
     const users = await User.find({});
     return res.json(users);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -43,7 +43,7 @@ const createUser = async (req, res, next) => {
     if (err.code === 11000) {
       next(new ConflictError('Пользователь с указанным email уже зарегестрирован!'));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -60,7 +60,7 @@ const getUser = async (req, res, next) => {
     if (err.name === 'CastError') {
       next(new BadRequestError('Передан некорректный id пользователя.'));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -83,7 +83,7 @@ const updateUserProfile = async (req, res, next) => {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}`));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -106,7 +106,7 @@ const updateUserAvatar = async (req, res, next) => {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}`));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -130,7 +130,7 @@ const login = async (req, res, next) => {
     return res.json({ token });
   } catch (err) {
     console.error(err);
-    next(err);
+    return next(err);
   }
 };
 
@@ -149,7 +149,7 @@ const getCurrentUserInfo = async (req, res, next) => {
     if (err.name === 'CastError') {
       next(new BadRequestError('Передан некорректный id пользователя!'));
     }
-    next(err);
+    return next(err);
   }
 };
 

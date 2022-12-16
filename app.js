@@ -57,6 +57,7 @@ app.use((err, req, res, next) => {
         ? 'На сервере произошла ошибка'
         : message,
     });
+  next();
 });
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
