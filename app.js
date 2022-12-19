@@ -27,8 +27,6 @@ app.use(errorsHandler);
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 }, () => {
-  console.log('Connected to MongoDB');
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
   });
 });
