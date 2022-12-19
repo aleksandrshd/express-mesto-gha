@@ -37,12 +37,12 @@ const createUser = async (req, res, next) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      next(new BadRequestError(`Переданы некорректные данные при создании пользователя. ${errors.join(', ')}`));
-    } else if (err.code === 11000) {
-      next(new ConflictError('Пользователь с указанным email уже зарегестрирован!'));
-    } else {
-      return next(err);
+      return next(new BadRequestError(`Переданы некорректные данные при создании пользователя. ${errors.join(', ')}`));
     }
+    if (err.code === 11000) {
+      return next(new ConflictError('Пользователь с указанным email уже зарегестрирован!'));
+    }
+    return next(err);
   }
 };
 
@@ -56,10 +56,9 @@ const getUser = async (req, res, next) => {
     return res.json(user);
   } catch (err) {
     if (err.name === 'CastError') {
-      next(new BadRequestError('Передан некорректный id пользователя.'));
-    } else {
-      return next(err);
+      return next(new BadRequestError('Передан некорректный id пользователя.'));
     }
+    return next(err);
   }
 };
 
@@ -79,10 +78,9 @@ const updateUserProfile = async (req, res, next) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      next(new BadRequestError(`Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}`));
-    } else {
-      return next(err);
+      return next(new BadRequestError(`Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}`));
     }
+    return next(err);
   }
 };
 
@@ -102,10 +100,9 @@ const updateUserAvatar = async (req, res, next) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
-      next(new BadRequestError(`Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}`));
-    } else {
-      return next(err);
+      return next(new BadRequestError(`Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}`));
     }
+    return next(err);
   }
 };
 
@@ -144,10 +141,9 @@ const getCurrentUserInfo = async (req, res, next) => {
     return res.json(user);
   } catch (err) {
     if (err.name === 'CastError') {
-      next(new BadRequestError('Передан некорректный id пользователя!'));
-    } else {
-      return next(err);
+      return next(new BadRequestError('Передан некорректный id пользователя!'));
     }
+    return next(err);
   }
 };
 
