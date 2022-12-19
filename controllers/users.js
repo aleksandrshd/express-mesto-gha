@@ -35,15 +35,14 @@ const createUser = async (req, res, next) => {
       _id: user._id,
     });
   } catch (err) {
-    console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при создании пользователя. ${errors.join(', ')}`));
-    }
-    if (err.code === 11000) {
+    } else if (err.code === 11000) {
       next(new ConflictError('Пользователь с указанным email уже зарегестрирован!'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -56,11 +55,11 @@ const getUser = async (req, res, next) => {
     }
     return res.json(user);
   } catch (err) {
-    console.error(err);
     if (err.name === 'CastError') {
       next(new BadRequestError('Передан некорректный id пользователя.'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -73,17 +72,17 @@ const updateUserProfile = async (req, res, next) => {
     });
 
     if (!user) {
-      next(new NotFoundError('Пользователь не найден!'));
+      return next(new NotFoundError('Пользователь не найден!'));
     }
 
     return res.json(user);
   } catch (err) {
-    console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при обновлении профиля. ${errors.join(', ')}`));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -96,17 +95,17 @@ const updateUserAvatar = async (req, res, next) => {
     });
 
     if (!user) {
-      next(new NotFoundError('Пользователь не найден!'));
+      return next(new NotFoundError('Пользователь не найден!'));
     }
 
     return res.json(user);
   } catch (err) {
-    console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при обновлении аватара. ${errors.join(', ')}`));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -116,20 +115,19 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      next(new UnauthorizedError('Введены некорректные почта или пароль!'));
+      return next(new UnauthorizedError('Введены некорректные почта или пароль!'));
     }
 
     const matched = await bcrypt.compare(password, user.password);
 
     if (!matched) {
-      next(new UnauthorizedError('Введены некорректные почта или пароль!'));
+      throw new UnauthorizedError('Введены некорректные почта или пароль!');
     }
 
     const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
 
     return res.json({ token });
   } catch (err) {
-    console.error(err);
     return next(err);
   }
 };
@@ -140,16 +138,16 @@ const getCurrentUserInfo = async (req, res, next) => {
     const user = await User.findById(id);
 
     if (!user) {
-      next(new NotFoundError('Пользователь не найден!'));
+      return next(new NotFoundError('Пользователь не найден!'));
     }
 
     return res.json(user);
   } catch (err) {
-    console.error(err);
     if (err.name === 'CastError') {
       next(new BadRequestError('Передан некорректный id пользователя!'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 

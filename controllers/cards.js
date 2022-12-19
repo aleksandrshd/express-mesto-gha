@@ -9,7 +9,6 @@ const getCards = async (req, res, next) => {
     const cards = await Card.find({});
     return res.json(cards);
   } catch (err) {
-    console.error(err);
     return next(err);
   }
 };
@@ -21,7 +20,6 @@ const createCard = async (req, res, next) => {
     );
     return res.status(httpStatusCodes.created).json(newCard);
   } catch (err) {
-    console.error(err);
     if (err.name === 'ValidationError') {
       const errors = Object.values(err.errors).map((error) => error.message);
       next(new BadRequestError(`Переданы некорректные данные при создании карточки. ${errors.join(', ')}`));
@@ -36,7 +34,7 @@ const deleteCard = async (req, res, next) => {
     const card = await Card.findById(id);
 
     if (!card) {
-      next(new NotFoundError('Карточка c указанным id не найдена!'));
+      return next(new NotFoundError('Карточка c указанным id не найдена!'));
     }
 
     if (card.owner.toHexString() === req.user._id) {
@@ -45,11 +43,11 @@ const deleteCard = async (req, res, next) => {
     }
     return next(new ForbiddenError('Удаление карточек, добавленных другими пользователями запрещено!'));
   } catch (err) {
-    console.error(err);
     if (err.name === 'CastError') {
       next(new BadRequestError('Передан некорректный id карточки!'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -68,11 +66,11 @@ const likeCard = async (req, res, next) => {
 
     return res.json({ message: 'Лайк добавлен.' });
   } catch (err) {
-    console.error(err);
     if (err.name === 'CastError') {
       next(new BadRequestError('Переданы некорректные данные для постановки лайка!'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 
@@ -91,11 +89,11 @@ const dislikeCard = async (req, res, next) => {
 
     return res.json({ message: 'Лайк удален.' });
   } catch (err) {
-    console.error(err);
     if (err.name === 'CastError') {
       next(new BadRequestError('Переданы некорректные данные для снятия лайка!'));
+    } else {
+      return next(err);
     }
-    return next(err);
   }
 };
 

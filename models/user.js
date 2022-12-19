@@ -4,14 +4,14 @@ const { urlRegEx } = require('../utils/constants');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
     minLength: 2,
     maxLength: 30,
     default: 'Жак-Ив Кусто',
   },
   about: {
     type: String,
-    required: true,
+    required: false,
     minLength: 2,
     maxLength: 30,
     default: 'Исследователь',
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
       },
       message: (props) => `${props.value} is not a valid url!`,
     },
-    required: true,
+    required: false,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
   },
   email: {
